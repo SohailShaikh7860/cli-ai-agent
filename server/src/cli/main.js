@@ -1,9 +1,10 @@
-#!usr/bin/env node
+#!/usr/bin/env node
 
 import dotenv from "dotenv";
 import chalk from "chalk";
 import figlet from "figlet";
 import { Command } from "commander";
+import { login } from "./commands/auth/login.js";
 
 
 dotenv.config();
@@ -11,7 +12,7 @@ dotenv.config();
 async function main(){
      console.log(
         chalk.cyan(
-            figlet.textSync("C-l-i-A-i-Agent", { horizontalLayout: "default",
+            figlet.textSync("CLI-AI-AGENT", { horizontalLayout: "default",
             font: "Standard"
             })
         )
@@ -21,7 +22,9 @@ async function main(){
 
      const program = new Command("cli-ai-agent");
 
-     program.version("1.0.0").description("A Cli AI Agent powered by OpenAI");
+     program.version("1.0.0")
+     .description("A Cli AI Agent powered by OpenAI")
+     .addCommand(login)
 
      program.action(()=>{
         program.help();

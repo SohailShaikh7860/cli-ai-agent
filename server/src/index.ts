@@ -8,7 +8,7 @@ dotenv.config();
 import { auth } from './lib/auth.js';
 
 const app = express();
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 3006;
 
 app.use(cors({
    origin: "http://localhost:3000",
