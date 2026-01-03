@@ -9,13 +9,12 @@ import fs from "node:fs/promises"
 import open from "open";
 import os from "os";
 import path from "path";
+import { fileURLToPath } from "url";
 import yoctoSpinner from "yocto-spinner";
 import * as z from "zod/v4";
 import dotenv from "dotenv";
 import prisma from "../../../lib/Ds.js"
 import { getStoredToken, isTokenExpired, storeToken } from "../../../lib/token.js";
-
-dotenv.config();
 
 
 const URL = "http://localhost:3005"

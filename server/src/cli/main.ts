@@ -1,13 +1,18 @@
 #!/usr/bin/env node
-
 import dotenv from "dotenv";
 import chalk from "chalk";
 import figlet from "figlet";
 import { Command } from "commander";
 import { login } from "./commands/auth/login.js";
+import { logout } from "./commands/auth/logOut.js";
+import { whoami } from "./commands/auth/whoAmI.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
 async function main(){
      console.log(
@@ -25,6 +30,8 @@ async function main(){
      program.version("1.0.0")
      .description("A Cli AI Agent powered by OpenAI")
      .addCommand(login)
+     .addCommand(logout)
+     .addCommand(whoami)
 
      program.action(()=>{
         program.help();
