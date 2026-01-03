@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { intro, outro, cancel, isCancel, confirm } from "@clack/prompts";
-import { getStoredToken, clearStoredToken } from "../../../lib/token";
+import { getStoredToken, clearStoredToken } from "../../../lib/token.js";
 import { Command } from "commander";
 
 

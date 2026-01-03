@@ -1,5 +1,5 @@
-import { requireAuth } from "../../../lib/token";
-import prisma from "../../../lib/Ds";
+import { requireAuth } from "../../../lib/token.js";
+import prisma from "../../../lib/Ds.js";
 import chalk from "chalk";
 import { Command } from "commander";
 
@@ -31,8 +31,8 @@ export async function whoamiAction(opts:any){
 
     console.log(
         chalk.bold.greenBright(`\n👤 User: ${user?.name}\n
-        Email:${user.email}
-        ID:${user.id}
+📧 Email:${user.email}
+🪪 ID:${user.id}
         `
         )
     )
