@@ -125,11 +125,11 @@ async function displayMessages(messages:any[]){
      })
 }
 
-async function saveMessage(conversationId:any, role:any, content:any){
+async function saveMessage(conversationId:string, role:any, content:any){
      return await chatSvc.addMessage(conversationId, role, content);
 }
 
-async function getAiResponse(conversationId:any){
+async function getAiResponse(conversationId:string){
      const spinner = yoctoSpinner({
         text: "AI is thinking...",
         color: 'cyan'
@@ -169,7 +169,7 @@ async function getAiResponse(conversationId:any){
      }
 }
 
-async function updateConversationTitle(conversationId:any, userInput:any, messageCount:number){
+async function updateConversationTitle(conversationId:string, userInput:any, messageCount:number){
      if(messageCount === 1){
         const title = userInput.slice(0,50) + (userInput.length > 50 ? "...": "")
         await chatSvc.updateTitle(conversationId, title);

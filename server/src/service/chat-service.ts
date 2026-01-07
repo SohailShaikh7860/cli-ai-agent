@@ -9,7 +9,7 @@ export class chatService {
      * @param {string} title - Optional title for the conversation.
      */
 
-    async createConversation(userId:any, mode:any= "chat", title = null) {
+    async createConversation(userId:any, mode:string= "chat", title = null) {
          return prisma.conversation.create({
              data:{
                     userId,
@@ -26,7 +26,7 @@ export class chatService {
      * @param {string} mode - Optional mode to filter.
      */
 
-    async getOrCreateConversation(userId:any, conversationId:any = null, mode = "chat") {
+    async getOrCreateConversation(userId:string, conversationId:string | null = null, mode = "chat") {
           if(conversationId){
               const conversation = await prisma.conversation.findFirst({
                 where:{

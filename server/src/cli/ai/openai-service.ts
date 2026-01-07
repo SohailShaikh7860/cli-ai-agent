@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import { streamText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { openaiConfig } from "../../config/openai.config.js";
-import chalk, { Chalk } from "chalk";
+import chalk from "chalk";
 
 export class AIService{
     private client: OpenAI;
@@ -27,16 +27,28 @@ export class AIService{
      * 
      */
 
-    async sendMessage(messages:any, onChunk:any, tools = undefined, onToolCall = null){
+    async sendMessage(messages:any, onChunk:any, tools = undefined, onToolCall: ((toolCall: any) => void) | null = null){
         try {
             const openai = createOpenAI({
                 apiKey: openaiConfig.apiKey
             });
 
-            const result = await streamText({
+            const streamConfig: any = {
                 model: openai(openaiConfig.model),
                 messages: messages,
-            });
+            };
+
+            if (tools && Object.keys(tools).length > 0) {
+                streamConfig.tools = tools;
+                streamConfig.maxSteps = 5; //just 5 toll call steps
+
+                console.log(
+                    chalk.gray(`[DEBUG] tools enabled: ${Object.keys(tools).join(", ")}`)
+                );
+                
+            }
+
+            const result = await streamText(streamConfig);
 
             let fullResponse = '';
 
@@ -49,10 +61,33 @@ export class AIService{
 
             const fullResult = result;
 
+            const toolCalls = [];
+            const toolResults = [];
+
+            if(fullResult.steps && Array.isArray(fullResult.steps)){
+                 for(const step of fullResult.steps){
+                      if(step.toolCalls && step.toolCalls.length > 0){
+                         for(const toolCall of step.toolCalls){
+                            toolCalls.push(toolCall)
+
+                            if(onToolCall){
+                                onToolCall(toolCall);
+                            }
+                      }
+                 }
+
+                 if(step.toolResults && step.toolResults.length > 0){
+                     toolResults.push(...step.toolResults);
+                 }
+                 }
+                }
             return{
                 content: fullResponse,
                 finishResponse: fullResult.finishReason,
-                usage: fullResult.usage
+                usage: fullResult.usage,
+                toolCalls,
+                toolResults,
+                steps:fullResult.steps
             }
         } catch (error: any) {
             console.error(chalk.red("AI Service Error"), error.message);
@@ -68,10 +103,10 @@ export class AIService{
      */
     async getMessage(messages:any, tools=undefined){
         let fullResponse = '';
-        await this.sendMessage(messages, (chunk:any)=>{
+       const result = await this.sendMessage(messages, (chunk:any)=>{
             fullResponse += chunk;
-        })
+        }, tools)
 
-        return fullResponse;
+        return result.content;
     }
 }
