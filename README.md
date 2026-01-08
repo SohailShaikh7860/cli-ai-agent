@@ -174,24 +174,14 @@ By default, the client expects the server to run on `http://localhost:3005`. Adj
 
 ## Screenshots
 
+### CLI Login
+![CLI Login](github/screenshot/cli-login.png)
 
-- **CLI login**
+### CLI Options
+![CLI Options](github/screenshot/cli-options.png)
 
-  ```markdown
-  ![CLI Login](github/screenshot/cli-login.png)
-  ```
-
-- **CLI options**
-
-  ```markdown
-  ![CLI Options](github/screenshot/cli-options.png)
-  ```
-
-- **Device authorization flow**
-
-  ```markdown
-  ![Device Authorization](github/screenshot/Device-auth.png)
-  ```
+### Device Authorization Flow
+![Device Authorization](github/screenshot/Device-auth.png)
 
 ---
 
